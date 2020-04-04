@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/sofyan48/go-cinlog/cinlog"
 	"github.com/sofyan48/go-cinlog/config"
 )
@@ -16,5 +18,8 @@ func main() {
 			"user_id":   "00001",
 		},
 	}
-	log.SaveLogger("123456", "success", data)
+	log.Save("123456", "success", data)
+	result, _ := log.Get("123456")
+	fmt.Println(result)
+	log.All()
 }

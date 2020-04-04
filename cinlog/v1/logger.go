@@ -27,7 +27,7 @@ func V1SessionHandler(sess *entity.SessionGlobal) *V1Session {
 }
 
 // SaveLogger ...
-func (v1 V1Session) SaveLogger(uuid, status string, data map[string]interface{}) (*entity.LoggerEventHistory, error) {
+func (v1 V1Session) Save(uuid, status string, data map[string]interface{}) (*entity.LoggerEventHistory, error) {
 	path := v1.URL
 	payload := &entity.SaveLogger{}
 	payload.Data = data
@@ -46,4 +46,45 @@ func (v1 V1Session) SaveLogger(uuid, status string, data map[string]interface{})
 	result := &entity.LoggerEventHistory{}
 	err = json.Unmarshal(resultData, result)
 	return result, nil
+}
+
+// Get ...
+func (v1 V1Session) Get(uuid string) (*entity.LoggerEventHistory, error) {
+	path := v1.URL + "/get"
+	payload := &entity.GetLoggerRequest{}
+	payload.Action = v1.Service
+	payload.UUID = uuid
+	bytePayload, err := json.Marshal(payload)
+	if err != nil {
+		return nil, err
+	}
+	resultData, err := v1.Requester.POST(path, "", bytePayload)
+	if err != nil {
+		return nil, err
+	}
+	result := &entity.LoggerEventHistory{}
+	err = json.Unmarshal(resultData, result)
+	return result, nil
+}
+
+// All ...
+func (v1 V1Session) All() ([]entity.LoggerEventHistory, error) {
+	path := v1.URL + "/all"
+	payload := &entity.GetAllLoggerRequest{}
+	payload.Action = v1.Service
+	bytePayload, err := json.Marshal(payload)
+	if err != nil {
+		return nil, err
+	}
+	resultData, err := v1.Requester.POST(path, "", bytePayload)
+	if err != nil {
+		return nil, err
+	}
+	result := make([]entity.LoggerEventHistory, 0)
+	err = json.Unmarshal(resultData, &result)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(result)
+	return nil, nil
 }
