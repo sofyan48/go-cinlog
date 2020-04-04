@@ -2,7 +2,6 @@ package v1
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/sofyan48/go-cinlog/entity"
 	"github.com/sofyan48/go-cinlog/libs"
@@ -26,7 +25,7 @@ func V1SessionHandler(sess *entity.SessionGlobal) *V1Session {
 	}
 }
 
-// SaveLogger ...
+// Save ...
 func (v1 V1Session) Save(uuid, status string, data map[string]interface{}) (*entity.LoggerEventHistory, error) {
 	path := v1.URL
 	payload := &entity.SaveLogger{}
@@ -39,7 +38,6 @@ func (v1 V1Session) Save(uuid, status string, data map[string]interface{}) (*ent
 		return nil, err
 	}
 	resultData, err := v1.Requester.POST(path, "", bytePayload)
-	fmt.Println(string(resultData))
 	if err != nil {
 		return nil, err
 	}
