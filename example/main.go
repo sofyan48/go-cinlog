@@ -21,5 +21,6 @@ func main() {
 	log.Save("123456", "success", data)
 	result, _ := log.Get("123456")
 	fmt.Println(result)
-	log.All()
+	results, _ := log.All()
+	fmt.Println(results)
 }

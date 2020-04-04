@@ -80,11 +80,10 @@ func (v1 V1Session) All() ([]entity.LoggerEventHistory, error) {
 	if err != nil {
 		return nil, err
 	}
-	result := make([]entity.LoggerEventHistory, 0)
-	err = json.Unmarshal(resultData, &result)
+	results := make([]entity.LoggerEventHistory, 0)
+	err = json.Unmarshal(resultData, &results)
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(result)
-	return nil, nil
+	return results, nil
 }
