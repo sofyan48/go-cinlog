@@ -2,6 +2,7 @@ package v1
 
 import (
 	"encoding/json"
+	"fmt"
 
 	"github.com/sofyan48/go-cinlog/entity"
 	"github.com/sofyan48/go-cinlog/libs"
@@ -31,12 +32,14 @@ func (v1 V1Session) SaveLogger(uuid, status string, data map[string]interface{})
 	payload := &entity.SaveLogger{}
 	payload.Data = data
 	payload.UUID = uuid
+	payload.Action = v1.Service
 	payload.Status = status
 	bytePayload, err := json.Marshal(payload)
 	if err != nil {
 		return nil, err
 	}
 	resultData, err := v1.Requester.POST(path, "", bytePayload)
+	fmt.Println(string(resultData))
 	if err != nil {
 		return nil, err
 	}

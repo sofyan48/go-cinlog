@@ -13,6 +13,7 @@ type SessionGlobal struct {
 // SaveLogger ...
 type SaveLogger struct {
 	UUID   string                 `json:"uuid"`
+	Action string                 `json:"action"`
 	Data   map[string]interface{} `json:"data"`
 	Status string                 `json:"status"`
 }
