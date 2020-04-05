@@ -65,6 +65,25 @@ func (v1 V1Session) Get(uuid string) (*entity.LoggerEventHistory, error) {
 	return result, nil
 }
 
+// Find ...
+func (v1 V1Session) Find(uuid, action string) (*entity.LoggerEventHistory, error) {
+	path := v1.URL + "/get"
+	payload := &entity.GetLoggerRequest{}
+	payload.Action = action
+	payload.UUID = uuid
+	bytePayload, err := json.Marshal(payload)
+	if err != nil {
+		return nil, err
+	}
+	resultData, err := v1.Requester.POST(path, "", bytePayload)
+	if err != nil {
+		return nil, err
+	}
+	result := &entity.LoggerEventHistory{}
+	err = json.Unmarshal(resultData, result)
+	return result, nil
+}
+
 // All ...
 func (v1 V1Session) All() ([]entity.LoggerEventHistory, error) {
 	path := v1.URL + "/all"
